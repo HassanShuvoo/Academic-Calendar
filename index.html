@@ -6,183 +6,248 @@
     <style>
         :root {
             --nsu-blue: #004a99;
-            --nsu-light-blue: #eef5ff;
-            --holiday-yellow: #fff9c4;
-            --critical-red: #d32f2f;
-            --success-green: #2e7d32;
-            --border-color: #cfd8dc;
-            --text-main: #263238;
+            --nsu-accent: #007bff;
+            --holiday-bg: #fff9e6;
+            --holiday-text: #856404;
+            --exam-bg: #fff0f0;
+            --exam-text: #d32f2f;
+            --bg-gray: #f8f9fa;
+            --border: #dee2e6;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.5;
-            color: var(--text-main);
-            background-color: #f4f7f9;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background-color: #f0f2f5;
             margin: 0;
-            padding: 20px;
+            padding: 10px;
+            color: #333;
         }
 
-        .calendar-container {
-            max-width: 950px;
+        .container {
+            max-width: 900px;
             margin: 0 auto;
-            background: white;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         header {
+            background: var(--nsu-blue);
+            color: white;
+            padding: 20px;
             text-align: center;
-            border-bottom: 3px solid var(--nsu-blue);
-            margin-bottom: 30px;
-            padding-bottom: 20px;
         }
 
-        header h1 {
-            margin: 0;
-            color: var(--nsu-blue);
-            font-size: 28px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        header h1 { margin: 0; font-size: 1.4rem; text-transform: uppercase; }
+        header p { margin: 5px 0 0; opacity: 0.9; font-size: 0.9rem; }
 
-        header h2 {
-            margin: 5px 0;
-            font-weight: 400;
-            color: #546e7a;
-        }
-
-        .meta-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            font-weight: 600;
-            font-size: 0.9em;
-        }
-
-        table {
+        /* Responsive Table Logic */
+        .calendar-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 30px;
         }
 
-        th {
-            background-color: var(--nsu-blue);
-            color: white;
+        .calendar-table thead {
+            background: var(--bg-gray);
+            border-bottom: 2px solid var(--border);
+        }
+
+        .calendar-table th {
+            padding: 15px;
             text-align: left;
-            padding: 12px 15px;
-            font-weight: 600;
+            font-size: 0.85rem;
+            color: #666;
             text-transform: uppercase;
-            font-size: 0.85em;
         }
 
-        td {
-            padding: 12px 15px;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 0.95em;
+        .calendar-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
         }
 
-        tr:nth-child(even) {
-            background-color: #fafafa;
-        }
-
-        /* Specialized Row Styles */
-        .row-start-class {
-            background-color: #e8f5e9 !important;
+        /* Row Styles */
+        .event-title { font-weight: 600; display: block; margin-bottom: 4px; }
+        .date-text { font-weight: 700; color: var(--nsu-blue); }
+        .day-text { color: #777; font-size: 0.9rem; }
+        
+        .type-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
             font-weight: bold;
-            color: var(--success-green);
-            border-left: 5px solid var(--success-green);
+            margin-top: 5px;
+            background: #e9ecef;
+            color: #495057;
         }
 
-        .row-holiday {
-            background-color: var(--holiday-yellow) !important;
-            font-style: italic;
-        }
+        .holiday { background-color: var(--holiday-bg) !important; }
+        .holiday .type-badge { background: #ffeeba; color: var(--holiday-text); }
+        
+        .exam { background-color: var(--exam-bg) !important; }
+        .exam .type-badge { background: #f8d7da; color: var(--exam-text); }
 
-        .row-exam {
-            background-color: #fff3e0 !important;
-            font-weight: bold;
-            color: #e65100;
-        }
+        .start-date { border-left: 5px solid #28a745; background-color: #f4fff6; }
 
-        .date-col { width: 15%; white-space: nowrap; font-weight: 600; }
-        .day-col { width: 15%; color: #78909c; }
-        .event-col { width: 70%; }
+        /* MOBILE STYLES */
+        @media screen and (max-width: 600px) {
+            .calendar-table thead { display: none; } /* Hide headers on mobile */
+            
+            .calendar-table tr {
+                display: block;
+                padding: 15px;
+                border-bottom: 8px solid var(--bg-gray);
+            }
+
+            .calendar-table td {
+                display: block;
+                padding: 2px 0;
+                border: none;
+            }
+
+            .date-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 8px;
+            }
+
+            .event-title { font-size: 1.05rem; line-height: 1.4; }
+        }
 
         footer {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-color);
-            font-size: 0.85em;
-            color: #78909c;
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .legend {
-            font-weight: bold;
-            color: var(--nsu-blue);
-        }
-
-        @media print {
-            body { background: white; padding: 0; }
-            .calendar-container { box-shadow: none; width: 100%; }
+            padding: 20px;
+            font-size: 0.8rem;
+            background: var(--bg-gray);
+            color: #666;
+            text-align: center;
         }
     </style>
-    <title>NSU Academic Calendar Spring 2026</title>
 </head>
 <body>
 
-<div class="calendar-container">
+<div class="container">
     <header>
         <h1>North South University</h1>
-        <h2>Tentative Academic Calendar: Spring 2026</h2>
+        <p>Spring 2026 Academic Calendar</p>
     </header>
 
-    <div class="meta-info">
-        <span>Updated: 30 Dec 2025</span>
-        <span>Spring Semester</span>
-    </div>
-
-    <table>
+    <table class="calendar-table">
         <thead>
             <tr>
-                <th class="date-col">Date</th>
-                <th class="day-col">Day</th>
-                <th class="event-col">Event Description</th>
+                <th>Date & Day</th>
+                <th>Event Details</th>
             </tr>
         </thead>
         <tbody>
-            <tr><td>31-Dec-25</td><td>Wednesday</td><td>Last day of grade submission Fall 2025</td></tr>
-            <tr><td>11-Jan-26</td><td>Sunday</td><td>On-Campus registration for newly admitted students: BEGINS</td></tr>
-            <tr><td>12-Jan-26</td><td>Monday</td><td>Online course registration for regular/probation students: BEGINS</td></tr>
-            <tr><td>17-Jan-26</td><td>Saturday</td><td><strong>Orientation Program</strong> (Newly admitted undergraduate students)</td></tr>
-            <tr><td>19-Jan-26</td><td>Monday</td><td>Registration & Drop/Add/Section Change: ENDS</td></tr>
-            <tr class="row-start-class">
-                <td>21-Jan-26</td>
-                <td>Wednesday</td>
-                <td>CLASSES BEGIN / Payment of tuition fee: BEGINS</td>
+            <tr>
+                <td class="date-row">
+                    <span class="date-text">11 Jan 2026</span><br>
+                    <span class="day-text">Sunday</span>
+                </td>
+                <td>
+                    <span class="event-title">On-Campus Registration: BEGINS</span>
+                    <span class="type-badge">Admissions</span>
+                </td>
             </tr>
-            <tr class="row-holiday"><td>04-Feb-26</td><td>Wednesday</td><td>Holiday: Shab-E-Barat</td></tr>
-            <tr><td>16-Feb-26</td><td>Monday</td><td>Last day of payment of tuition without late fee</td></tr>
-            <tr class="row-holiday"><td>21-Feb-26</td><td>Saturday</td><td>Holiday: Martyrs Day & International Mother Language Day</td></tr>
-            <tr class="row-holiday"><td>17-Mar-26</td><td>Tuesday</td><td>Holiday: Laylatul Qadr</td></tr>
-            <tr class="row-holiday"><td>19-23 Mar</td><td>Thu-Mon</td><td>Holiday: Eid Ul Fitr (Subject to moon sighting)</td></tr>
-            <tr class="row-holiday"><td>26-Mar-26</td><td>Thursday</td><td>Holiday: Independence Day</td></tr>
-            <tr class="row-holiday"><td>14-Apr-26</td><td>Tuesday</td><td>Holiday: Bangla New Year</td></tr>
-            <tr><td>25-Apr-26</td><td>Saturday</td><td>Last day of RA Classes (Thursday-Saturday)</td></tr>
-            <tr><td>28-Apr-26</td><td>Tuesday</td><td>Last day of ST Classes (Sunday-Tuesday)</td></tr>
-            <tr class="row-exam"><td>02-May-26</td><td>Saturday</td><td>Final Exams: BEGINS</td></tr>
-            <tr class="row-exam"><td>08-May-26</td><td>Friday</td><td>Final Exams: ENDS</td></tr>
-            <tr><td>12-May-26</td><td>Tuesday</td><td>Last day of grade submission Spring 2026</td></tr>
+            <tr>
+                <td class="date-row">
+                    <span class="date-text">17 Jan 2026</span><br>
+                    <span class="day-text">Saturday</span>
+                </td>
+                <td>
+                    <span class="event-title">Undergraduate Orientation Program</span>
+                    <span class="type-badge">Event</span>
+                </td>
+            </tr>
+            <tr class="start-date">
+                <td class="date-row">
+                    <span class="date-text">21 Jan 2026</span><br>
+                    <span class="day-text">Wednesday</span>
+                </td>
+                <td>
+                    <span class="event-title">CLASSES BEGIN</span>
+                    <span class="type-badge" style="background:#28a745; color:white;">Academic Start</span>
+                </td>
+            </tr>
+            <tr class="holiday">
+                <td class="date-row">
+                    <span class="date-text">04 Feb 2026</span><br>
+                    <span class="day-text">Wednesday</span>
+                </td>
+                <td>
+                    <span class="event-title">Shab-E-Barat</span>
+                    <span class="type-badge">Holiday</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="date-row">
+                    <span class="date-text">16 Feb 2026</span><br>
+                    <span class="day-text">Monday</span>
+                </td>
+                <td>
+                    <span class="event-title">Last Day: Tuition Payment (No Late Fee)</span>
+                    <span class="type-badge">Financial</span>
+                </td>
+            </tr>
+            <tr class="holiday">
+                <td class="date-row">
+                    <span class="date-text">21 Feb 2026</span><br>
+                    <span class="day-text">Saturday</span>
+                </td>
+                <td>
+                    <span class="event-title">Martyrs Day & International Mother Language Day</span>
+                    <span class="type-badge">Holiday</span>
+                </td>
+            </tr>
+            <tr class="holiday">
+                <td class="date-row">
+                    <span class="date-text">19 - 23 Mar</span><br>
+                    <span class="day-text">Thu - Mon</span>
+                </td>
+                <td>
+                    <span class="event-title">Eid Ul Fitr Holidays</span>
+                    <span class="type-badge">University Closed</span>
+                </td>
+            </tr>
+            <tr class="holiday">
+                <td class="date-row">
+                    <span class="date-text">14 Apr 2026</span><br>
+                    <span class="day-text">Tuesday</span>
+                </td>
+                <td>
+                    <span class="event-title">Bangla New Year</span>
+                    <span class="type-badge">Holiday</span>
+                </td>
+            </tr>
+            <tr class="exam">
+                <td class="date-row">
+                    <span class="date-text">02 May 2026</span><br>
+                    <span class="day-text">Saturday</span>
+                </td>
+                <td>
+                    <span class="event-title">Final Examinations: BEGINS</span>
+                    <span class="type-badge">Assessment</span>
+                </td>
+            </tr>
+            <tr class="exam">
+                <td class="date-row">
+                    <span class="date-text">08 May 2026</span><br>
+                    <span class="day-text">Friday</span>
+                </td>
+                <td>
+                    <span class="event-title">Final Examinations: ENDS</span>
+                    <span class="type-badge">Assessment</span>
+                </td>
+            </tr>
         </tbody>
     </table>
 
     <footer>
-        <div><span class="legend">ST:</span> Sunday-Tuesday</div>
-        <div><span class="legend">MW:</span> Monday-Wednesday</div>
-        <div><span class="legend">RA:</span> Thursday-Saturday</div>
+        ST: Sun-Tue | MW: Mon-Wed | RA: Thu-Sat<br>
+        © 2026 North South University
     </footer>
 </div>
 
