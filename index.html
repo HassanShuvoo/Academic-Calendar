@@ -3,33 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NSU Academic Calendar Spring 2026</title>
     <style>
         :root {
             --nsu-blue: #004a99;
-            --nsu-accent: #007bff;
-            --holiday-bg: #fff9e6;
+            --holiday-bg: #fffde7;
             --holiday-text: #856404;
-            --exam-bg: #fff0f0;
-            --exam-text: #d32f2f;
-            --bg-gray: #f8f9fa;
-            --border: #dee2e6;
+            --academic-green: #e8f5e9;
+            --academic-text: #1b5e20;
+            --exam-bg: #fff5f5;
+            --exam-text: #c62828;
+            --border: #e0e0e0;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Arial, sans-serif;
             margin: 0;
             padding: 10px;
+            background-color: #f5f7f9;
             color: #333;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
             background: #fff;
-            border-radius: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         header {
@@ -39,90 +40,58 @@
             text-align: center;
         }
 
-        header h1 { margin: 0; font-size: 1.4rem; text-transform: uppercase; }
-        header p { margin: 5px 0 0; opacity: 0.9; font-size: 0.9rem; }
+        header h1 { margin: 0; font-size: 1.5rem; }
+        header p { margin: 5px 0 0; font-size: 0.9rem; opacity: 0.9; }
 
-        /* Responsive Table Logic */
-        .calendar-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+        .calendar-grid { display: grid; grid-template-columns: 120px 100px 1fr; }
 
-        .calendar-table thead {
-            background: var(--bg-gray);
+        .header-cell {
+            background: #f1f3f4;
+            padding: 12px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            text-transform: uppercase;
             border-bottom: 2px solid var(--border);
         }
 
-        .calendar-table th {
-            padding: 15px;
-            text-align: left;
-            font-size: 0.85rem;
-            color: #666;
-            text-transform: uppercase;
-        }
-
-        .calendar-table td {
-            padding: 15px;
+        .cell {
+            padding: 12px;
             border-bottom: 1px solid var(--border);
-            vertical-align: top;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
         }
 
-        /* Row Styles */
-        .event-title { font-weight: 600; display: block; margin-bottom: 4px; }
-        .date-text { font-weight: 700; color: var(--nsu-blue); }
-        .day-text { color: #777; font-size: 0.9rem; }
-        
-        .type-badge {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            margin-top: 5px;
-            background: #e9ecef;
-            color: #495057;
-        }
+        /* Special Row Styling */
+        .holiday { background-color: var(--holiday-bg); color: var(--holiday-text); font-style: italic; }
+        .academic-start { background-color: var(--academic-green); color: var(--academic-text); font-weight: bold; }
+        .exam { background-color: var(--exam-bg); color: var(--exam-text); font-weight: bold; }
+        .no-class { background-color: #fff9c4; font-weight: 500; }
 
-        .holiday { background-color: var(--holiday-bg) !important; }
-        .holiday .type-badge { background: #ffeeba; color: var(--holiday-text); }
-        
-        .exam { background-color: var(--exam-bg) !important; }
-        .exam .type-badge { background: #f8d7da; color: var(--exam-text); }
-
-        .start-date { border-left: 5px solid #28a745; background-color: #f4fff6; }
-
-        /* MOBILE STYLES */
-        @media screen and (max-width: 600px) {
-            .calendar-table thead { display: none; } /* Hide headers on mobile */
+        /* Responsive Mobile Layout */
+        @media (max-width: 600px) {
+            .calendar-grid { grid-template-columns: 1fr; }
+            .header-cell { display: none; }
             
-            .calendar-table tr {
-                display: block;
-                padding: 15px;
-                border-bottom: 8px solid var(--bg-gray);
+            .cell { padding: 5px 15px; border-bottom: none; }
+            
+            .date-cell { 
+                background: #f8f9fa; 
+                padding-top: 15px; 
+                font-weight: bold; 
+                color: var(--nsu-blue);
+                border-top: 5px solid #eee;
             }
-
-            .calendar-table td {
-                display: block;
-                padding: 2px 0;
-                border: none;
-            }
-
-            .date-row {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 8px;
-            }
-
-            .event-title { font-size: 1.05rem; line-height: 1.4; }
+            .day-cell { color: #666; font-size: 0.8rem; padding-bottom: 0; }
+            .event-cell { padding-bottom: 15px; border-bottom: 1px solid #eee; line-height: 1.4; }
         }
 
         footer {
             padding: 20px;
+            background: #f1f3f4;
             font-size: 0.8rem;
-            background: var(--bg-gray);
-            color: #666;
             text-align: center;
+            line-height: 1.6;
         }
     </style>
 </head>
@@ -131,123 +100,93 @@
 <div class="container">
     <header>
         <h1>North South University</h1>
-        <p>Spring 2026 Academic Calendar</p>
+        <p>Tentative Academic Calendar: Spring 2026 (Updated: 30 Dec 2025)</p>
     </header>
 
-    <table class="calendar-table">
-        <thead>
-            <tr>
-                <th>Date & Day</th>
-                <th>Event Details</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="date-row">
-                    <span class="date-text">11 Jan 2026</span><br>
-                    <span class="day-text">Sunday</span>
-                </td>
-                <td>
-                    <span class="event-title">On-Campus Registration: BEGINS</span>
-                    <span class="type-badge">Admissions</span>
-                </td>
-            </tr>
-            <tr>
-                <td class="date-row">
-                    <span class="date-text">17 Jan 2026</span><br>
-                    <span class="day-text">Saturday</span>
-                </td>
-                <td>
-                    <span class="event-title">Undergraduate Orientation Program</span>
-                    <span class="type-badge">Event</span>
-                </td>
-            </tr>
-            <tr class="start-date">
-                <td class="date-row">
-                    <span class="date-text">21 Jan 2026</span><br>
-                    <span class="day-text">Wednesday</span>
-                </td>
-                <td>
-                    <span class="event-title">CLASSES BEGIN</span>
-                    <span class="type-badge" style="background:#28a745; color:white;">Academic Start</span>
-                </td>
-            </tr>
-            <tr class="holiday">
-                <td class="date-row">
-                    <span class="date-text">04 Feb 2026</span><br>
-                    <span class="day-text">Wednesday</span>
-                </td>
-                <td>
-                    <span class="event-title">Shab-E-Barat</span>
-                    <span class="type-badge">Holiday</span>
-                </td>
-            </tr>
-            <tr>
-                <td class="date-row">
-                    <span class="date-text">16 Feb 2026</span><br>
-                    <span class="day-text">Monday</span>
-                </td>
-                <td>
-                    <span class="event-title">Last Day: Tuition Payment (No Late Fee)</span>
-                    <span class="type-badge">Financial</span>
-                </td>
-            </tr>
-            <tr class="holiday">
-                <td class="date-row">
-                    <span class="date-text">21 Feb 2026</span><br>
-                    <span class="day-text">Saturday</span>
-                </td>
-                <td>
-                    <span class="event-title">Martyrs Day & International Mother Language Day</span>
-                    <span class="type-badge">Holiday</span>
-                </td>
-            </tr>
-            <tr class="holiday">
-                <td class="date-row">
-                    <span class="date-text">19 - 23 Mar</span><br>
-                    <span class="day-text">Thu - Mon</span>
-                </td>
-                <td>
-                    <span class="event-title">Eid Ul Fitr Holidays</span>
-                    <span class="type-badge">University Closed</span>
-                </td>
-            </tr>
-            <tr class="holiday">
-                <td class="date-row">
-                    <span class="date-text">14 Apr 2026</span><br>
-                    <span class="day-text">Tuesday</span>
-                </td>
-                <td>
-                    <span class="event-title">Bangla New Year</span>
-                    <span class="type-badge">Holiday</span>
-                </td>
-            </tr>
-            <tr class="exam">
-                <td class="date-row">
-                    <span class="date-text">02 May 2026</span><br>
-                    <span class="day-text">Saturday</span>
-                </td>
-                <td>
-                    <span class="event-title">Final Examinations: BEGINS</span>
-                    <span class="type-badge">Assessment</span>
-                </td>
-            </tr>
-            <tr class="exam">
-                <td class="date-row">
-                    <span class="date-text">08 May 2026</span><br>
-                    <span class="day-text">Friday</span>
-                </td>
-                <td>
-                    <span class="event-title">Final Examinations: ENDS</span>
-                    <span class="type-badge">Assessment</span>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="calendar-grid">
+        <div class="header-cell">Date</div>
+        <div class="header-cell">Day</div>
+        <div class="header-cell">Event</div>
+
+        <div class="cell date-cell">31-Dec-25</div><div class="cell day-cell">Wednesday</div><div class="cell event-cell">Last day of grade submission Fall 2025</div>
+        
+        <div class="cell date-cell">11-Jan-26</div><div class="cell day-cell">Sunday</div><div class="cell event-cell">On-Campus course registration for newly admitted students: BEGINS</div>
+        
+        <div class="cell date-cell">12-Jan-26</div><div class="cell day-cell">Monday</div><div class="cell event-cell">Online course registration for regular/probation students & add/drop/section change: BEGINS</div>
+        
+        <div class="cell date-cell">17-Jan-26</div><div class="cell day-cell">Saturday</div><div class="cell event-cell"><b>Orientation program for newly admitted undergraduate students</b></div>
+        
+        <div class="cell date-cell">19-Jan-26</div><div class="cell day-cell">Monday</div><div class="cell event-cell">Registration and Online course add/drop/section change: ENDS</div>
+        
+        <div class="cell date-cell">20-Jan-26</div><div class="cell day-cell">Tuesday</div><div class="cell event-cell">Last day of section cancellation and merging</div>
+        
+        <div class="cell date-cell academic-start">21-Jan-26</div><div class="cell day-cell academic-start">Wednesday</div><div class="cell event-cell academic-start">Classes begin Spring 2026 | Payment of tuition fee: BEGINS</div>
+        
+        <div class="cell date-cell">29-Jan-26</div><div class="cell day-cell">Thursday</div><div class="cell event-cell">Last day of online drop of courses with 100% refund</div>
+        
+        <div class="cell date-cell holiday">04-Feb-26</div><div class="cell day-cell holiday">Wednesday</div><div class="cell event-cell holiday">Holiday- Shab-E-Barat</div>
+        
+        <div class="cell date-cell">09-Feb-26</div><div class="cell day-cell">Monday</div><div class="cell event-cell">Last day of online drop of courses with 50% refund</div>
+        
+        <div class="cell date-cell">16-Feb-26</div><div class="cell day-cell">Monday</div><div class="cell event-cell"><b>Last day of payment of tuition without late fee</b></div>
+        
+        <div class="cell date-cell">17-Feb-26</div><div class="cell day-cell">Tuesday</div><div class="cell event-cell">Payment of tuition with late fee of Tk. 2,000/- begins</div>
+        
+        <div class="cell date-cell holiday">21-Feb-26</div><div class="cell day-cell holiday">Saturday</div><div class="cell event-cell holiday">Holiday- Martyrs Day & International Mother Language Day</div>
+        
+        <div class="cell date-cell">02-Mar-26</div><div class="cell day-cell">Monday</div><div class="cell event-cell">Last day of payment of tuition with late fee of Tk. 2,000/-</div>
+        
+        <div class="cell date-cell">03-Mar-26</div><div class="cell day-cell">Tuesday</div><div class="cell event-cell">Payment of tuition with late fee (Tk. 2,000 + Tk. 100/day): BEGINS</div>
+        
+        <div class="cell date-cell">04-Mar-26</div><div class="cell day-cell">Wednesday</div><div class="cell event-cell">Last day of online drop of courses with 0% refund with "W" grade</div>
+        
+        <div class="cell date-cell">08-Mar-26</div><div class="cell day-cell">Sunday</div><div class="cell event-cell">Online Teaching Evaluation: BEGINS</div>
+        
+        <div class="cell date-cell">09-Mar-26</div><div class="cell day-cell">Monday</div><div class="cell event-cell">Last day of payment of tuition for financial aid recipients without late fee</div>
+        
+        <div class="cell date-cell holiday">17-Mar-26</div><div class="cell day-cell holiday">Tuesday</div><div class="cell event-cell holiday">Holiday- Laylatul Qadr</div>
+        
+        <div class="cell date-cell no-class">18-Mar-26</div><div class="cell day-cell no-class">Wednesday</div><div class="cell event-cell no-class">No Classes</div>
+        
+        <div class="cell date-cell holiday">19-Mar-26</div><div class="cell day-cell holiday">Thursday</div><div class="cell event-cell holiday">Holiday- Eid Ul Fitr (Subject to moon)</div>
+        
+        <div class="cell date-cell holiday">20-Mar-26</div><div class="cell day-cell holiday">Friday</div><div class="cell event-cell holiday">Holiday- Jumatul Bidah | Laylatul Qadr</div>
+        
+        <div class="cell date-cell holiday">21-Mar-26</div><div class="cell day-cell holiday">Saturday</div><div class="cell event-cell holiday">Holiday- Eid Ul Fitr (Subject to moon)</div>
+        
+        <div class="cell date-cell holiday">22-Mar-26</div><div class="cell day-cell holiday">Sunday</div><div class="cell event-cell holiday">Holiday- Eid Ul Fitr (Subject to moon)</div>
+        
+        <div class="cell date-cell holiday">23-Mar-26</div><div class="cell day-cell holiday">Monday</div><div class="cell event-cell holiday">Holiday- Eid Ul Fitr (Subject to moon)</div>
+        
+        <div class="cell date-cell no-class">24-Mar-26</div><div class="cell day-cell no-class">Tuesday</div><div class="cell event-cell no-class">No Classes</div>
+        
+        <div class="cell date-cell no-class">25-Mar-26</div><div class="cell day-cell no-class">Wednesday</div><div class="cell event-cell no-class">No Classes</div>
+        
+        <div class="cell date-cell holiday">26-Mar-26</div><div class="cell day-cell holiday">Thursday</div><div class="cell event-cell holiday">Holiday- Independence Day</div>
+        
+        <div class="cell date-cell holiday">14-Apr-26</div><div class="cell day-cell holiday">Tuesday</div><div class="cell event-cell holiday">Holiday- Bangla New Year</div>
+        
+        <div class="cell date-cell">25-Apr-26</div><div class="cell day-cell">Saturday</div><div class="cell event-cell">Last day of RA classes</div>
+        
+        <div class="cell date-cell">27-Apr-26</div><div class="cell day-cell">Monday</div><div class="cell event-cell">Last day of MW classes</div>
+        
+        <div class="cell date-cell">28-Apr-26</div><div class="cell day-cell">Tuesday</div><div class="cell event-cell">Last day of ST classes | Online Teaching Evaluation: ENDS</div>
+        
+        <div class="cell date-cell no-class">29-Apr-26</div><div class="cell day-cell no-class">Wednesday</div><div class="cell event-cell no-class">No Classes</div>
+        
+        <div class="cell date-cell no-class">30-Apr-26</div><div class="cell day-cell no-class">Thursday</div><div class="cell event-cell no-class">No Classes</div>
+        
+        <div class="cell date-cell holiday">01-May-26</div><div class="cell day-cell holiday">Friday</div><div class="cell event-cell holiday">Holiday- May Day | Buddha Purnima</div>
+        
+        <div class="cell date-cell exam">02-May-26</div><div class="cell day-cell exam">Saturday</div><div class="cell event-cell exam">Final Exam: BEGINS</div>
+        
+        <div class="cell date-cell exam">08-May-26</div><div class="cell day-cell exam">Friday</div><div class="cell event-cell exam">Final Exam: ENDS</div>
+        
+        <div class="cell date-cell">12-May-26</div><div class="cell day-cell">Tuesday</div><div class="cell event-cell">Last day of grade submission Spring 2026</div>
+    </div>
 
     <footer>
-        ST: Sun-Tue | MW: Mon-Wed | RA: Thu-Sat<br>
-        © 2026 North South University
+        <b>Legend:</b> ST = Sunday-Tuesday | MW = Monday-Wednesday | RA = Thursday-Saturday
     </footer>
 </div>
 
